@@ -5,6 +5,7 @@
  */
 package com.mycompany.is.gui;
 
+import com.mycompany.is.Parent;
 import com.mycompany.is.entity.Item;
 import com.mycompany.is.enums.ActionEnum;
 import com.mycompany.is.service.ItemService;
@@ -35,6 +36,7 @@ public class ItemFormFrm extends javax.swing.JDialog {
         loadItem(item);
         this.principal = (Parent) parent;
         this.action = action;
+        disableEnableElements(action);
     }
 
     /**
@@ -282,5 +284,12 @@ public class ItemFormFrm extends javax.swing.JDialog {
         this.txtName.setText(item.getName());
         this.lblId.setText(item.getId() != null ? item.getId().toString() : "NUEVO ELEMENTO");
         this.txtCantidad.setValue(item.getCount() != null ? item.getCount() : Integer.valueOf(0));
+    }
+
+    private void disableEnableElements(ActionEnum action) {
+        this.txtCantidad.setEnabled(action != ActionEnum.DELETE);
+        this.txtCode.setEnabled(action != ActionEnum.DELETE);
+        this.txtDescription.setEnabled(action != ActionEnum.DELETE);
+        this.txtName.setEnabled(action != ActionEnum.DELETE);
     }
 }

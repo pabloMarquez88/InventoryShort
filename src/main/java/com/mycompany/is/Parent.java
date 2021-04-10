@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.is.gui;
+package com.mycompany.is;
 
+import com.mycompany.is.gui.ItemListFrm;
+import com.mycompany.is.gui.ItemTakeFrm;
 import com.mycompany.is.gui.misc.ItemExportImportFrm;
 import com.mycompany.is.gui.misc.ItemHistoryFrm;
 import java.awt.Component;
@@ -139,7 +141,7 @@ public class Parent extends javax.swing.JFrame {
     }
     
     private void entryHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryHistoryActionPerformed
-        JInternalFrame form = ItemHistoryFrm.INSTANCE;
+        JInternalFrame form = ItemHistoryFrm.getInstance(this);
         this.addChild(form);
     }//GEN-LAST:event_entryHistoryActionPerformed
 

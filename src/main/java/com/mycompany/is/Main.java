@@ -6,7 +6,6 @@
 package com.mycompany.is;
 
 import com.mycompany.is.entity.Item;
-import com.mycompany.is.gui.Parent;
 import com.mycompany.is.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

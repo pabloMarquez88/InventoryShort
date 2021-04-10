@@ -5,6 +5,7 @@
  */
 package com.mycompany.is.gui;
 
+import com.mycompany.is.Parent;
 import ch.qos.logback.core.CoreConstants;
 import com.mycompany.is.entity.Item;
 import com.mycompany.is.enums.ActionEnum;
@@ -190,6 +191,10 @@ public class ItemListFrm extends javax.swing.JInternalFrame {
         if (rowId != -1){
             Item item = Item.builder()
                     .id((Long) tblItems.getModel().getValueAt(rowId, 0))
+                    .code((String) tblItems.getModel().getValueAt(rowId, 1))
+                    .name((String) tblItems.getModel().getValueAt(rowId, 2))
+                    .count((Integer)tblItems.getModel().getValueAt(rowId, 3))
+                    .description((String) tblItems.getModel().getValueAt(rowId, 4))
                     .build();
             ItemFormFrm itemForm = new ItemFormFrm(this.frame, true, item, ActionEnum.DELETE);
             itemForm.setVisible(true);
