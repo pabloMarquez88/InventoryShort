@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.is.gui;
+package com.mycompany.is.gui.misc;
 
 import javax.swing.JInternalFrame;
 
@@ -11,14 +11,14 @@ import javax.swing.JInternalFrame;
  *
  * @author Escritorio
  */
-public class ItemExportImportFrm extends javax.swing.JInternalFrame {
+public class ItemHistoryFrm extends javax.swing.JInternalFrame {
 
-    public static JInternalFrame INSTANCE = new ItemExportImportFrm();
+    public static JInternalFrame INSTANCE = new ItemHistoryFrm();
     
     /**
      * Creates new form ItemListFrm
      */
-    public ItemExportImportFrm() {
+    public ItemHistoryFrm() {
         initComponents();
     }
 
@@ -35,7 +35,7 @@ public class ItemExportImportFrm extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Exportar importar Datos");
+        setTitle("Consulta Historial");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

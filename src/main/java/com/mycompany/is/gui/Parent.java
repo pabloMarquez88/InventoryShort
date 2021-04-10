@@ -5,18 +5,33 @@
  */
 package com.mycompany.is.gui;
 
+import com.mycompany.is.gui.misc.ItemExportImportFrm;
+import com.mycompany.is.gui.misc.ItemHistoryFrm;
 import java.awt.Component;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
+import org.springframework.context.ApplicationContext;
 
 /**
  *
  * @author Escritorio
  */
 public class Parent extends javax.swing.JFrame {
-
     
+    ApplicationContext context;
     
+    public Object getSpringBean(String name){
+        return context.getBean(name);
+    }
+    
+    /**
+     * Creates new form NewJFrame
+     */
+    public Parent(ApplicationContext context) {
+        initComponents();
+        this.context = context;
+    }
+        
     /**
      * Creates new form NewJFrame
      */
@@ -129,7 +144,7 @@ public class Parent extends javax.swing.JFrame {
     }//GEN-LAST:event_entryHistoryActionPerformed
 
     private void entryCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryCreateActionPerformed
-        JInternalFrame form = ItemListFrm.INSTANCE;
+        JInternalFrame form = ItemListFrm.getInstance(this);
         this.addChild(form);
     }//GEN-LAST:event_entryCreateActionPerformed
 

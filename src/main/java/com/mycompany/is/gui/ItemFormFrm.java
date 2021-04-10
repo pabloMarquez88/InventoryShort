@@ -5,11 +5,20 @@
  */
 package com.mycompany.is.gui;
 
+import com.mycompany.is.entity.Item;
+import com.mycompany.is.enums.ActionEnum;
+import com.mycompany.is.service.ItemService;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Escritorio
  */
 public class ItemFormFrm extends javax.swing.JDialog {
+
+    private Item item;
+    private Parent principal;
+    private ActionEnum action;
 
     /**
      * Creates new form ItemFormFrm
@@ -17,6 +26,15 @@ public class ItemFormFrm extends javax.swing.JDialog {
     public ItemFormFrm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    public ItemFormFrm(java.awt.Frame parent, boolean modal, Item item, ActionEnum action) {
+        super(parent, modal);
+        initComponents();
+        this.item = item;
+        loadItem(item);
+        this.principal = (Parent) parent;
+        this.action = action;
     }
 
     /**
@@ -29,7 +47,7 @@ public class ItemFormFrm extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblId = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtCode = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -38,6 +56,8 @@ public class ItemFormFrm extends javax.swing.JDialog {
         txtDescription = new javax.swing.JTextField();
         btnAccept = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
+        txtCantidad = new javax.swing.JSpinner();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Elemento");
@@ -45,7 +65,7 @@ public class ItemFormFrm extends javax.swing.JDialog {
 
         jLabel1.setText("Id");
 
-        jLabel2.setText("jLabel2");
+        lblId.setText("jLabel2");
 
         jLabel3.setText("Codigo");
 
@@ -60,8 +80,20 @@ public class ItemFormFrm extends javax.swing.JDialog {
         txtDescription.setText("jTextField3");
 
         btnAccept.setText("Aceptar");
+        btnAccept.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcceptActionPerformed(evt);
+            }
+        });
 
         btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Cantidad");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -72,27 +104,29 @@ public class ItemFormFrm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtName)
-                            .addComponent(txtDescription)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel1))
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
+                                .addComponent(lblId)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtCode)))
+                            .addComponent(txtCode, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCantidad, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtName)
+                            .addComponent(txtDescription)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 164, Short.MAX_VALUE)
-                        .addComponent(btnCancel)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnAccept)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAccept)))
+                        .addComponent(btnCancel)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -101,7 +135,7 @@ public class ItemFormFrm extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                    .addComponent(lblId))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -116,13 +150,74 @@ public class ItemFormFrm extends javax.swing.JDialog {
                     .addComponent(txtDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAccept)
                     .addComponent(btnCancel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptActionPerformed
+        switch (this.action) {
+            case CREATE: {
+                saveItem();
+                break;
+            }
+            case EDIT: {
+                item.setId(Long.valueOf(lblId.getText()));
+                this.saveItem();
+                break;
+            }
+            case DELETE: {
+                item.setId(Long.valueOf(lblId.getText()));
+                this.deleteItem();
+                break;
+            }
+
+        }
+
+    }//GEN-LAST:event_btnAcceptActionPerformed
+
+    private void saveItem() {
+        item.setCode(txtCode.getText());
+        item.setDescription(this.txtDescription.getText());
+        item.setName(this.txtName.getText());
+        item.setCount((Integer) this.txtCantidad.getValue());
+        ItemService itemService = (ItemService) this.principal.getSpringBean("itemService");
+        try {
+            itemService.saveItem(item);
+            JOptionPane.showMessageDialog(null, "Operacion realizada con Exito");
+            this.dispose();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error interno");
+        }
+    }
+
+    private void deleteItem() {
+        item.setCode(txtCode.getText());
+        item.setDescription(this.txtDescription.getText());
+        item.setName(this.txtName.getText());
+        item.setCount((Integer) this.txtCantidad.getValue());
+        ItemService itemService = (ItemService) this.principal.getSpringBean("itemService");
+        try {
+            itemService.deleteItem(item);
+            JOptionPane.showMessageDialog(null, "Operacion realizada con Exito");
+            this.dispose();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error interno");
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -174,8 +269,18 @@ public class ItemFormFrm extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel lblId;
+    private javax.swing.JSpinner txtCantidad;
     private javax.swing.JTextField txtCode;
     private javax.swing.JTextField txtDescription;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
+
+    private void loadItem(Item item) {
+        this.txtCode.setText(item.getCode());
+        this.txtDescription.setText(item.getDescription());
+        this.txtName.setText(item.getName());
+        this.lblId.setText(item.getId() != null ? item.getId().toString() : "NUEVO ELEMENTO");
+        this.txtCantidad.setValue(item.getCount() != null ? item.getCount() : Integer.valueOf(0));
+    }
 }
