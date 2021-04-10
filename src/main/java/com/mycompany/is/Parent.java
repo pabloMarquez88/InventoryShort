@@ -6,7 +6,7 @@
 package com.mycompany.is;
 
 import com.mycompany.is.gui.ItemListFrm;
-import com.mycompany.is.gui.ItemTakeFrm;
+import com.mycompany.is.gui.ItemRetrievetFrm;
 import com.mycompany.is.gui.misc.ItemExportImportFrm;
 import com.mycompany.is.gui.misc.ItemHistoryFrm;
 import java.awt.Component;
@@ -151,12 +151,12 @@ public class Parent extends javax.swing.JFrame {
     }//GEN-LAST:event_entryCreateActionPerformed
 
     private void entryRetrieveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryRetrieveActionPerformed
-        JInternalFrame form = ItemTakeFrm.INSTANCE;
+        JInternalFrame form = ItemRetrievetFrm.getInstance(this);
         this.addChild(form);
     }//GEN-LAST:event_entryRetrieveActionPerformed
 
     private void ImportExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImportExportActionPerformed
-        JInternalFrame form = ItemExportImportFrm.INSTANCE;
+        JInternalFrame form = ItemExportImportFrm.getInstance(this);
         this.addChild(form);
     }//GEN-LAST:event_ImportExportActionPerformed
 

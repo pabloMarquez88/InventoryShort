@@ -10,5 +10,5 @@ package com.mycompany.is.enums;
  * @author Escritorio
  */
 public enum ActionEnum {
-    CREATE,EDIT,DELETE;
+    CREATE,EDIT,DELETE,RETRIEVE;
 }

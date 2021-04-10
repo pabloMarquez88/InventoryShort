@@ -30,6 +30,34 @@ public class ItemService {
     @Autowired
     private HistoryItemRepo historyItemRepo;
 
+    
+    @Transactional
+    public void saveItem(Item item, ActionEnum actionEnum) {
+        String action = actionEnum.toString();
+        
+        Integer oldAmount = item.getCount();
+        if (item.getId() != null){
+            Item originalItem = itemRepo.findById(item.getId()).orElse(null);
+            if (originalItem != null){
+                oldAmount = originalItem.getCount();
+            }
+        }
+        
+        item.setStatus("ALIVE");
+        itemRepo.save(item);        
+        
+        HistoryItem hi = HistoryItem.builder()
+                .oldAmount(oldAmount)
+                .newAmount(item.getCount())
+                .action(action)
+                .date(LocalDateTime.now())
+                .item(item)
+                .pcName(getPcName())
+                .build();
+        historyItemRepo.save(hi);
+
+    }
+    
     @Transactional
     public void saveItem(Item item) {
         String action = item.getId() != null ? ActionEnum.EDIT.toString() : ActionEnum.CREATE.toString();
@@ -85,6 +113,10 @@ public class ItemService {
             filter = filter.toUpperCase();
         }
         return itemRepo.findByFilterAndIds(filter);
+    }
+    
+    public Item getItemById (Long id){
+        return this.itemRepo.findById(id).orElse(null);
     }
 
     private String getPcName() {
