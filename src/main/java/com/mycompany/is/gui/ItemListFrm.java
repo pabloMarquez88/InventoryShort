@@ -68,7 +68,7 @@ public class ItemListFrm extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Elementos");
+        setTitle("Gestion General");
 
         tblItems.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

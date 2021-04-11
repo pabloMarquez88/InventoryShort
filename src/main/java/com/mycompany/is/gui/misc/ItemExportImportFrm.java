@@ -71,7 +71,7 @@ public class ItemExportImportFrm extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("Consulta Historial");
+        setTitle("Backup");
 
         btnExportar.setText("EXPORTAR");
         btnExportar.addActionListener(new java.awt.event.ActionListener() {

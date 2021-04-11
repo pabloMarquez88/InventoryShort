@@ -66,7 +66,7 @@ public class ItemRetrievetFrm extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Elementos");
+        setTitle("Retirar Elementos");
 
         tblItems.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
