@@ -131,4 +131,7 @@ public class ItemService {
         return hostname;
     }
 
+    public List<Item> getAllItems(){
+        return itemRepo.findAll();
+    }
 }

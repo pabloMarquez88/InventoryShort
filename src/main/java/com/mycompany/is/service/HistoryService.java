@@ -10,6 +10,7 @@ import com.mycompany.is.entity.HistoryItem;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -29,4 +30,9 @@ public class HistoryService {
         }
         return historyItemRepo.findAll();
     }
+    
+    public List<HistoryItem> getAllHistoryItems(){
+        return historyItemRepo.findAll();
+    }
+    
 }

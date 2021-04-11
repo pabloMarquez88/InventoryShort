@@ -6,13 +6,24 @@
 package com.mycompany.is.gui.misc;
 
 import com.mycompany.is.Parent;
+import com.mycompany.is.dto.ExportImportDTO;
 import com.mycompany.is.entity.HistoryItem;
 import com.mycompany.is.entity.Item;
+import com.mycompany.is.service.ExportImportService;
 import com.mycompany.is.service.HistoryService;
-import java.time.format.DateTimeFormatter;
+import com.mycompany.is.service.ItemService;
+import com.thoughtworks.xstream.XStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,7 +44,6 @@ public class ItemExportImportFrm extends javax.swing.JInternalFrame {
     public ItemExportImportFrm(JFrame parent) {
         initComponents();
         this.frame = parent;
-        loadFiltered();
     }
     
     private Object getSpringBean(String beanName){
@@ -56,39 +66,26 @@ public class ItemExportImportFrm extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        txtFilter = new javax.swing.JTextField();
-        btnFiltrar = new javax.swing.JButton();
-        scrollpane = new javax.swing.JScrollPane();
-        tblHistory = new javax.swing.JTable();
+        btnExportar = new javax.swing.JButton();
+        btnImportar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
         setTitle("Consulta Historial");
 
-        jLabel1.setText("Filtro");
-
-        btnFiltrar.setText("filtrar");
-        btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
+        btnExportar.setText("EXPORTAR");
+        btnExportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFiltrarActionPerformed(evt);
+                btnExportarActionPerformed(evt);
             }
         });
 
-        tblHistory.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        btnImportar.setText("IMPORTAR");
+        btnImportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImportarActionPerformed(evt);
             }
-        ));
-        scrollpane.setViewportView(tblHistory);
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -96,72 +93,113 @@ public class ItemExportImportFrm extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(scrollpane, javax.swing.GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnFiltrar)))
+                .addComponent(btnImportar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnExportar)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnFiltrar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollpane, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnExportar, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                    .addComponent(btnImportar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
-        loadFiltered();
-    }//GEN-LAST:event_btnFiltrarActionPerformed
+    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
+        this.export();        
+    }//GEN-LAST:event_btnExportarActionPerformed
+
+    private void btnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarActionPerformed
+        this.importData();
+    }//GEN-LAST:event_btnImportarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnFiltrar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane scrollpane;
-    private javax.swing.JTable tblHistory;
-    private javax.swing.JTextField txtFilter;
+    private javax.swing.JButton btnExportar;
+    private javax.swing.JButton btnImportar;
     // End of variables declaration//GEN-END:variables
 
-    private void loadFiltered() {
+    private void export() {
+        ItemService itemService = (ItemService) this.getSpringBean("itemService");
         HistoryService historyService = (HistoryService) this.getSpringBean("historyService");
-        List<HistoryItem> items = historyService.getHistoryFiltered(this.txtFilter.getText());
-        DefaultTableModel tm = new DefaultTableModel();
-        tm.addColumn("Id");
-        tm.addColumn("Item");
-        tm.addColumn("Fecha");
-        tm.addColumn("Cantidad anterior");
-        tm.addColumn("Cantidad posterior");
-        tm.addColumn("Accion");
-        tm.addColumn("PC");
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        for (HistoryItem item: items){
-            Object[] row = {
-                item.getId(),
-                item.getItem().getName(),
-                format.format(item.getDate()),                
-                item.getOldAmount(),
-                item.getNewAmount(),
-                item.getAction(),
-                item.getPcName()
-            };
-            tm.addRow(row);
-        }
-        this.tblHistory.setModel(tm);
-        this.tblHistory.getColumnModel().getColumn(0).setPreferredWidth(5);
-        
+        List<Item> items = itemService.getAllItems();
+        List<HistoryItem> hItems = historyService.getAllHistoryItems();
+        ExportImportDTO dto = ExportImportDTO.builder()
+                .item(items)
+                .history(hItems)
+                .build();
+        XStream xstream = new XStream();
+        String xml = xstream.toXML(dto);
+        this.save(xml);
     }
+
+    private void save(String xml) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Indique donde guardar los datos");   
+        fileChooser.setSelectedFile(new File("C:\\Export.xml"));
+            
+        int userSelection = fileChooser.showSaveDialog(frame);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            try {
+                System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+                BufferedWriter writer = new BufferedWriter(new FileWriter(fileToSave));
+                writer.write(xml);    
+                writer.close();
+                JOptionPane.showMessageDialog(null, "Operación realizada con Exito");
+            } catch (Exception e){
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error interno");
+            }
+        }
+    }
+
+    private void importData() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("C:\\Export.xml"));
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+            StringBuilder resultStringBuilder = new StringBuilder();
+            try {
+                InputStream inputStream = new FileInputStream(selectedFile);
+                try (BufferedReader br
+                  = new BufferedReader(new InputStreamReader(inputStream))) {
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        resultStringBuilder.append(line).append("\n");
+                    }
+                }
+                this.loadData(resultStringBuilder.toString());
+            } catch (Exception e){
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error interno");
+            }
+        }
+    }
+
+    private void loadData(String xml) {
+        XStream xstream = new XStream();
+        ExportImportDTO dto = (ExportImportDTO) xstream.fromXML(xml);
+        ExportImportService service = (ExportImportService) this.getSpringBean("exportImportService");                
+        int input = JOptionPane.showConfirmDialog(null, "Esta Operación reemplazara todos los datos actuales", "Desea continuar?",
+               JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (input == 0){
+            service.loadAllData(dto);
+            JOptionPane.showMessageDialog(null, "Operacion Exitosa");
+        } else {
+            JOptionPane.showMessageDialog(null, "Operacion Cancelada");
+        }
+         
+    }
+
+   
 }
