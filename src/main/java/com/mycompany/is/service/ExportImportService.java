@@ -32,6 +32,7 @@ public class ExportImportService {
     
     @Transactional
     public void loadItems(ExportImportDTO dto) {
+        historyItemRepo.deleteAll();    
         itemRepo.deleteAll();        
         dto.getItem().forEach(item -> {
             item.setOldId(item.getId());
@@ -43,7 +44,7 @@ public class ExportImportService {
     
     @Transactional
     public void loadHistoty(ExportImportDTO dto) {
-        historyItemRepo.deleteAll();    
+        
         
         dto.getHistory().forEach(hi -> {
             dto.getItem().stream().filter(
