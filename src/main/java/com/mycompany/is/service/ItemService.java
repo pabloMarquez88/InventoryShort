@@ -134,4 +134,12 @@ public class ItemService {
     public List<Item> getAllItems(){
         return itemRepo.findAll();
     }
+    
+    
+    public void prueba(){
+        List<Item> result = this.itemRepo.probar("a");
+        for (Item ii : result){
+            System.out.println(ii.getName());
+        }
+    }
 }

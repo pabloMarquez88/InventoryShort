@@ -28,5 +28,8 @@ public interface ItemRepo extends JpaRepository<Item, Long> {
     List<Item> findByFilterAndIds(@Param("filter") String filter); 
     
     List<Item> findByStatus (String status);
+
+    @Query(value = "select * from Item where name like %:dato%",nativeQuery = true)
+    public List<Item> probar(@Param("dato")String dato);
     
 }

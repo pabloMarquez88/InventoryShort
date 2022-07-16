@@ -208,6 +208,8 @@ public class ItemListFrm extends javax.swing.JInternalFrame {
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
         this.loadAllData();
         this.txtFilter.setText("");
+        ItemService itemService = (ItemService)this.getSpringBean("itemService");
+        itemService.prueba();
     }//GEN-LAST:event_btnLoadActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
